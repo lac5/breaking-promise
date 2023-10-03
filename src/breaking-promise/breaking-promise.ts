@@ -27,9 +27,7 @@ export class BreakingPromise<T> extends Promise<T> {
             if (this[_routine] != null) {
                 reason = this[_routine].throwOr(reason);
             }
-            if (this[_deferred] != null) {
-                this[_deferred].status = Deferred.Status.Force;
-            }
+            this.stop(true);
             this.reason = reason;
             this.status = Status.Rejected;
             this[_deferred] = null;
@@ -41,9 +39,7 @@ export class BreakingPromise<T> extends Promise<T> {
                 if (this[_routine] != null) {
                     value = this[_routine].returnOr(value);
                 }
-                if (this[_deferred] != null) {
-                    this[_deferred].status = Deferred.Status.Force;
-                }
+                this.stop(true);
                 this.value = value;
                 this.status = Status.Fulfilled;
                 this[_deferred] = null;
@@ -52,6 +48,12 @@ export class BreakingPromise<T> extends Promise<T> {
             }, rejectWrap);
         };
         callback(resolveWrap, rejectWrap);
+    }
+
+    stop(force?: boolean) {
+        if (this[_deferred] != null) {
+            this[_deferred].status = force ? Deferred.Status.Force : Deferred.Status.Stop;
+        }
     }
 
     declare break: typeof Methods.breakFn;
