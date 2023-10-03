@@ -1,5 +1,4 @@
 import { BreakingPromise } from "../breaking-promise.js";
-import { Deferred } from "../../deferred/deferred.js";
 import { _deferred } from "../symbols.js";
 import { BreakCallback, Reason } from "../types.js";
 
@@ -32,14 +31,14 @@ export function breakFn<T, U>(this: BreakingPromise<T>, ...args:
     }
     if (force) {
         if (this[_deferred] != null) {
-            this[_deferred].status = Deferred.Status.Force;
+            this[_deferred].stop(true);
         }
         if (thenGenerator != null) {
-            return BreakingPromise.start<U>(thenGenerator);
+            return BreakingPromise.start<U>(thenGenerator as BreakCallback<void, U>);
         }
     } else {
         if (this[_deferred] != null) {
-            this[_deferred].status = Deferred.Status.Stop;
+            this[_deferred].stop();
         }
         if (thenGenerator != null || catchGenerator != null) {
             const { promise, deferred, routine } = BreakingPromise.defer<U>();

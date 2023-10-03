@@ -1,6 +1,8 @@
 import { BreakingPromise } from "../../breaking-promise.js";
 import { _deferred, _routine } from "../../symbols.js";
 
+export function resolve(this: typeof BreakingPromise): BreakingPromise<void>;
+export function resolve<T>(this: typeof BreakingPromise, value: T): BreakingPromise<T>;
 export function resolve<T>(this: typeof BreakingPromise, value?: T) {
     if (value instanceof BreakingPromise) {
         let promise = new BreakingPromise<T>((resolve, reject) => {

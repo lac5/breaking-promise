@@ -13,10 +13,12 @@ export class Deferred<T = any> {
 
     declare promise: typeof Methods.promise;
     declare iterate: typeof Methods.iterate;
+    declare stop: typeof Methods.stop;
 }
 
 Deferred.prototype.promise = Methods.promise;
 Deferred.prototype.iterate = Methods.iterate;
+Deferred.prototype.stop = Methods.stop;
 
 export namespace Deferred {
     export import Status = types.Status;

@@ -30,7 +30,7 @@ export interface ConstructorCallback<T> {
 }
 
 export interface BreakCallback<T, U> {
-    (this: Routine<Value<U>>, value?: T|void): types.Generator<U>
+    (this: Routine<U>, value?: T|void): types.Generator<U>
 }
 
 export interface ThenCallback<T, U> {

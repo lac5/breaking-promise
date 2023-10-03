@@ -27,7 +27,9 @@ export class BreakingPromise<T> extends Promise<T> {
             if (this[_routine] != null) {
                 reason = this[_routine].throwOr(reason);
             }
-            this.break(true);
+            if (this[_deferred] != null) {
+                this[_deferred].status = Deferred.Status.Force;
+            }
             this.reason = reason;
             this.status = Status.Rejected;
             this[_deferred] = null;
@@ -39,7 +41,9 @@ export class BreakingPromise<T> extends Promise<T> {
                 if (this[_routine] != null) {
                     value = this[_routine].returnOr(value);
                 }
-                this.break(true);
+                if (this[_deferred] != null) {
+                    this[_deferred].status = Deferred.Status.Force;
+                }
                 this.value = value;
                 this.status = Status.Fulfilled;
                 this[_deferred] = null;
@@ -53,6 +57,7 @@ export class BreakingPromise<T> extends Promise<T> {
     declare break: typeof Methods.breakFn;
     declare then: typeof Methods.then;
     declare catch: typeof Methods.catchFn;
+    declare nest: typeof Methods.nest;
 
     static start = Methods.Static.start;
     static defer = Methods.Static.defer;
@@ -63,6 +68,7 @@ export class BreakingPromise<T> extends Promise<T> {
 BreakingPromise.prototype.break = Methods.breakFn;
 BreakingPromise.prototype.then = Methods.then;
 BreakingPromise.prototype.catch = Methods.catchFn;
+BreakingPromise.prototype.nest = Methods.nest;
 
 export namespace BreakingPromise {
     export import Routine = routine.Routine;
