@@ -1,6 +1,6 @@
 {
   "name": "breaking-promise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Make asynchronous code that stops at any point.",
   "type": "module",
   "exports": {
@@ -10,7 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc"
   },
-  "keywords": ["promise"],
+  "keywords": [
+    "promise"
+  ],
   "author": "lac5 <22647131+lac5@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
